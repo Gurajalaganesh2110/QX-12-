@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q12-X Console</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Q12-X</h1>
+  <form id="conn">
+    <input id="ip" placeholder="Robot IP, e.g. 192.168.4.1" autocomplete="off" aria-label="Robot IP address">
+    <button type="submit">Connect</button>
+  </form>
+  <span id="mode" class="pill mode"></span>
+  <span id="status" class="pill off">brain offline</span>
+  <span id="lat" class="num"></span>
+  <button id="stop" class="stop" type="button">Emergency stop</button>
+</header>
+<main>
+  <section class="view">
+    <img id="video" src="/video" alt="Live camera from the robot">
+    <div id="novideo">Not connected. Type the robot IP and press Connect.</div>
+    <div class="chips"><span id="c-dist">distance –</span><span id="c-pan">pan 0°</span><span id="c-fps">0 fps</span></div>
+  </section>
+  <section class="panel">
+    <nav class="tabs">
+      <button data-tab="manual" class="on">Manual</button>
+      <button data-tab="auto">Automatic</button>
+      <button data-tab="diag">Self-check</button>
+      <button data-tab="log">Log</button>
+    </nav>
+
+    <div id="manual" class="tab">
+      <div class="row">
+        <div id="pad" aria-label="Drive pad"><div id="knob"></div></div>
+        <div class="col">
+          <button class="hold" data-turn="1">Turn left (Q)</button>
+          <button class="hold" data-turn="-1">Turn right (E)</button>
+          <p class="hint">Drag the pad or use W A S D. Space stops.</p>
+        </div>
+      </div>
+      <h3>Gait</h3>
+      <div class="btns" id="gaits"><button data-g="0">Creep</button><button data-g="1" class="on">Walk</button><button data-g="2">Run</button><button data-g="3">Jump</button></div>
+      <h3>Poses</h3>
+      <div class="btns" id="acts"><button data-a="1">Stand</button><button data-a="2">Sit</button><button data-a="3">Bounce</button><button data-a="4">Wave</button></div>
+      <h3>Camera head</h3>
+      <input id="pan" type="range" min="-90" max="90" value="0" aria-label="Camera pan angle">
+      <div class="btns"><button id="centre">Centre</button><label class="chk"><input id="sweep" type="checkbox"> Sweep left and right</label></div>
+    </div>
+
+    <div id="auto" class="tab" hidden>
+      <p class="hint">Choose what to fetch by colour, shape, or both. The robot searches, walks up to it and picks it up.</p>
+      <div class="row2">
+        <label>Colour <select id="f-colour"><option value="">any</option><option>red</option><option>orange</option><option>yellow</option><option>green</option><option>blue</option><option>purple</option></select></label>
+        <label>Shape <select id="f-shape"><option value="">any</option><option>circle</option><option>square</option><option>rectangle</option><option>triangle</option></select></label>
+      </div>
+      <h3>Seen right now (tap to use)</h3>
+      <div id="dets" class="btns"><span class="hint">nothing in view</span></div>
+      <div class="btns"><button id="go" class="primary">Search and pick</button><button id="halt">Stop</button></div>
+      <ol id="rail" class="rail"><li data-s="SEARCH">Search</li><li data-s="APPROACH">Approach</li><li data-s="ALIGN">Align</li><li data-s="PICK">Pick</li><li data-s="DONE">Done</li></ol>
+      <p id="mmsg" class="hint"></p>
+    </div>
+
+    <div id="diag" class="tab" hidden>
+      <div class="btns"><button id="run-diag" class="primary">Run self-check</button></div>
+      <table id="diag-t"><tbody></tbody></table>
+    </div>
+
+    <div id="log" class="tab" hidden><pre id="logbox"></pre></div>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
